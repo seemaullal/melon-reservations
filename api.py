@@ -1,5 +1,5 @@
 from flask import Flask, jsonify
-from secrets import APP_SECRET_KEY
+from app_secrets import APP_SECRET_KEY
 
 app = Flask(__name__)
 app.secret_key = APP_SECRET_KEY
