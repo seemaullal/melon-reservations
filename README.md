@@ -4,9 +4,9 @@ This project allows you to make and manage melon tasting reservations. 🍉
 
 ## Prerequisites
 
-This assumes you are running the application on a Unix based operating system.
-For other operating system, you will need to install Python3 and Yarn to run
-the project.
+The following pieces of software are necessary before installing project
+dependencies and running the application. If you already have these
+installed, [you can skip to the Setup section](#setup)
 
 ### Homebrew
 
