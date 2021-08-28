@@ -1,8 +1,15 @@
 from flask import Flask, jsonify
 from app_secrets import APP_SECRET_KEY
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder="./build", static_url_path="/")
 app.secret_key = APP_SECRET_KEY
+
+# production site
+@app.route("/", defaults={"path": ""})
+@app.route("/<path:path>")
+def index():
+    return app.send_static_file("index.html")
+
 
 @app.route("/api/test-data")
 def test_data():
