@@ -1,8 +1,8 @@
 from flask import Flask, jsonify
-from app_secrets import APP_SECRET_KEY
+import os
 
 app = Flask(__name__, static_folder="./build", static_url_path="/")
-app.secret_key = APP_SECRET_KEY
+app.secret_key = os.environ["APP_SECRET_KEY"]
 
 # production site
 @app.route("/", defaults={"path": ""})
