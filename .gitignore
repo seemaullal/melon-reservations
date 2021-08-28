@@ -6,9 +6,6 @@
 # testing
 /coverage
 
-# production
-/build
-
 # other
 .DS_Store
 npm-debug.log*
