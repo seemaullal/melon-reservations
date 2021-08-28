@@ -19,8 +19,6 @@ import {
 } from "@material-ui/core/styles";
 import ScheduleIcon from "@material-ui/icons/Schedule";
 import green from "@material-ui/core/colors/green";
-import pink from "@material-ui/core/colors/pink";
-
 import Schedule from "./components/Schedule";
 
 const theme = createTheme({
