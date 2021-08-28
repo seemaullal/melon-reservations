@@ -7,7 +7,7 @@ app.secret_key = os.environ["APP_SECRET_KEY"]
 # production site
 @app.route("/", defaults={"path": ""})
 @app.route("/<path:path>")
-def index():
+def index(path):
     return app.send_static_file("index.html")
 
 
