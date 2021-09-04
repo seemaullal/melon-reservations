@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, request
 from datetime import datetime, timedelta
 from dateutil.parser import parse
+import pytz
 import os
 
 app = Flask(__name__, static_folder="./build", static_url_path="/")
@@ -21,18 +22,15 @@ def get_reservations():
 
 @app.route("/api/reservations", methods=["POST"])
 def make_reservation():
-    date = parse(request.get_json()["date"])
-    start_time = parse(request.get_json()["startTime"]).time()
-    end_time = parse(request.get_json()["endTime"]).time()
-    interval_start = datetime.combine(date, start_time)
-    first_appointment_time = interval_start + (
-        datetime.min - interval_start
+    start_time = parse(request.get_json()["startTime"])
+    end_time = parse(request.get_json()["endTime"])
+    first_appointment_time = start_time + (
+        datetime.min.replace(tzinfo=pytz.UTC) - start_time
     ) % timedelta(minutes=30)
-    interval_end = datetime.combine(date, end_time)
     current = first_appointment_time
     times = []
-    while current < interval_end:
-        times.append(current)
+    while current < end_time:
+        times.append(current.isoformat())
         current = current + timedelta(minutes=30)
     return jsonify(times)
 

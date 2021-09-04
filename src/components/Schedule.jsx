@@ -6,12 +6,14 @@ import { Button, Container, Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import DateAdapter from "@mui/lab/AdapterDateFns";
 import TextField from "@mui/material/TextField";
-import { DatePicker, LocalizationProvider, TimePicker } from "@mui/lab";
+import { DateTimePicker, LocalizationProvider } from "@mui/lab";
+import AppointmentInfo from "./AppointmentInfo";
+import endOfDay from "date-fns/endOfDay/index.js";
 
 export default function Schedule({ isLoggedIn }) {
-  const [selectedDate, setSelectedDate] = useState(new Date());
   const [startTime, setStartTime] = useState(new Date());
   const [endTime, setEndTime] = useState(new Date());
+  const [availableAppointments, setAvailableAppointments] = useState([]);
   const useStyles = makeStyles((theme) => ({
     label: {
       justifyContent: "left",
@@ -28,9 +30,7 @@ export default function Schedule({ isLoggedIn }) {
   }));
 
   function onSubmit() {
-    const date = selectedDate.toISOString();
-    console.log(date)
-    const data = JSON.stringify({ date, startTime, endTime });
+    const data = JSON.stringify({startTime, endTime });
     fetch("/api/reservations", {
       method: "POST",
       headers: {
@@ -45,13 +45,14 @@ export default function Schedule({ isLoggedIn }) {
         return response.json();
       })
       .then((data) => {
-        console.log("Success:", data);
+        setAvailableAppointments(
+          data.map((dateString) => new Date(dateString))
+        );
       })
       .catch((error) => {
         console.error("Error:", error);
       });
   }
-
   const classes = useStyles();
 
   const history = useHistory();
@@ -72,46 +73,23 @@ export default function Schedule({ isLoggedIn }) {
           <Grid item className={classes.label} htmlFor="date-picker-dialog">
             Pick a date for your reservation:
           </Grid>
-          <Grid item>
-            <DatePicker
-              margin="normal"
-              id="date-picker-dialog"
-              label="Date picker dialog"
-              format="MM/dd/yyyy"
-              value={selectedDate}
-              onChange={(date) => setSelectedDate(date)}
-              KeyboardButtonProps={{
-                "aria-label": "change date",
-              }}
-              minDate={startOfDay(new Date())}
-              renderInput={(params) => <TextField {...params} />}
-              variant="static"
-            />
-          </Grid>
           <Grid container direction="row" spacing={3} justifyContent="center">
             <Grid item>
-              <TimePicker
-                margin="normal"
-                label="Start time"
+              <DateTimePicker
+                renderInput={(props) => <TextField {...props} />}
+                label="DateTimePicker"
                 value={startTime}
                 onChange={(time) => setStartTime(time)}
-                renderInput={(params) => <TextField {...params} />}
-                KeyboardButtonProps={{
-                  "aria-label": "change start time",
-                }}
-                sx={{ marginRight: 5 }}
+                minDate={startOfDay(new Date())}
               />
             </Grid>
             <Grid item>
-              <TimePicker
-                margin="normal"
-                label="End time"
+              <DateTimePicker
+                renderInput={(props) => <TextField {...props} />}
+                label="DateTimePicker"
                 value={endTime}
                 onChange={(time) => setEndTime(time)}
-                renderInput={(params) => <TextField {...params} />}
-                KeyboardButtonProps={{
-                  "aria-label": "change end time",
-                }}
+                minDate={startOfDay(new Date())}
               />
             </Grid>
           </Grid>
@@ -125,12 +103,9 @@ export default function Schedule({ isLoggedIn }) {
             </Button>
           </Grid>
         </Grid>
-        <div>
-          <p>Selected date: {selectedDate.toDateString()}</p>
-          <p>
-            Time: {startTime.toTimeString()}–{endTime.toTimeString()}
-          </p>
-        </div>
+        {availableAppointments.length > 0 && (
+          <AppointmentInfo appointments={availableAppointments} />
+        )}
       </LocalizationProvider>
     </Container>
   );
