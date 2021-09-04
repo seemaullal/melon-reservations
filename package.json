@@ -16,7 +16,7 @@
   },
   "scripts": {
     "js-start": "react-scripts start",
-    "py-start": "python3 api.py",
+    "py-start": "source env/bin/activate; source secrets.sh; python3 api.py",
     "build": "react-scripts build"
   },
   "eslintConfig": {
