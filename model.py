@@ -1,6 +1,6 @@
 from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
-
+import os
 db = SQLAlchemy()
 
 
@@ -16,7 +16,7 @@ class Reservation(db.Model):
     def __repr__(self):
         return f"<User username={self.username} start_time={self.start_time}>"
 
-def connect_to_db(flask_app, db_uri="postgresql:///melon-reservations", echo=True):
+def connect_to_db(flask_app, db_uri, echo):
     flask_app.config["SQLALCHEMY_DATABASE_URI"] = db_uri
     flask_app.config["SQLALCHEMY_ECHO"] = echo
     flask_app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
@@ -33,5 +33,7 @@ if __name__ == "__main__":
     # Call connect_to_db(app, echo=False) if your program output gets
     # too annoying; this will tell SQLAlchemy not to print out every
     # query it executes.
+    echo_on = os.environ.get('ENV', '') == 'development'
+    db_uri = os.environment['DATABASE_URI']
 
-    connect_to_db(app)
+    connect_to_db(app, db_uri, echo_on)

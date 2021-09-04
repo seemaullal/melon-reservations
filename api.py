@@ -65,6 +65,8 @@ def index(path):
 
 
 if __name__ == "__main__":
-    # TODO: make debug mode depend on whether we are in production or not
+    echo_on = os.environ.get('ENV', '') == 'development'
+    db_uri = os.environment['DATABASE_URI']
+    connect_to_db(app, db_uri, echo_on)
     connect_to_db(app)
-    app.run(host="0.0.0.0", debug=True)
+    app.run(host="0.0.0.0", debug=os.environ.get('ENV', '') == 'development')
