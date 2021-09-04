@@ -8,9 +8,8 @@ import DateAdapter from "@mui/lab/AdapterDateFns";
 import TextField from "@mui/material/TextField";
 import { DateTimePicker, LocalizationProvider } from "@mui/lab";
 import AppointmentInfo from "./AppointmentInfo";
-import endOfDay from "date-fns/endOfDay/index.js";
 
-export default function Schedule({ isLoggedIn }) {
+export default function Schedule({ username }) {
   const [startTime, setStartTime] = useState(new Date());
   const [endTime, setEndTime] = useState(new Date());
   const [availableAppointments, setAvailableAppointments] = useState([]);
@@ -30,7 +29,7 @@ export default function Schedule({ isLoggedIn }) {
   }));
 
   function onSubmit() {
-    const data = JSON.stringify({startTime, endTime });
+    const data = JSON.stringify({ startTime, endTime });
     fetch("/api/reservations", {
       method: "POST",
       headers: {
@@ -56,7 +55,7 @@ export default function Schedule({ isLoggedIn }) {
   const classes = useStyles();
 
   const history = useHistory();
-  if (!isLoggedIn) {
+  if (!username) {
     history.push("/login");
   }
 
@@ -104,7 +103,10 @@ export default function Schedule({ isLoggedIn }) {
           </Grid>
         </Grid>
         {availableAppointments.length > 0 && (
-          <AppointmentInfo appointments={availableAppointments} />
+          <AppointmentInfo
+            appointments={availableAppointments}
+            username={username}
+          />
         )}
       </LocalizationProvider>
     </Container>

@@ -9,7 +9,30 @@ import { Button } from "@material-ui/core";
 // import { DatePicker, LocalizationProvider, TimePicker } from "@mui/lab";
 import { DataGrid } from "@mui/x-data-grid";
 
-export default function AppointmentInfo({ appointments }) {
+export default function AppointmentInfo({ appointments, username }) {
+  function makeReservation(startTime) {
+    const data = JSON.stringify({ startTime, username });
+    fetch("/api/reservations/book", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: data,
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((responseJson) => {
+        console.log(responseJson);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
+  }
+
   const columns = [
     { field: "appointmentInfo", headerName: "Appointment Info", width: 400 },
     {
@@ -21,7 +44,7 @@ export default function AppointmentInfo({ appointments }) {
           variant="contained"
           color="primary"
           size="small"
-          onClick={() => console.log(`You clicked ${params.value}`)}
+          onClick={() => makeReservation(params.value)}
         >
           Make Reservation
         </Button>
@@ -36,8 +59,13 @@ export default function AppointmentInfo({ appointments }) {
   }));
 
   return (
-    <div style={{width: "100%" }}>
-      <DataGrid autoHeight={true} rows={rows} columns={columns} isRowSelectable={false}/>
+    <div style={{ width: "100%" }}>
+      <DataGrid
+        autoHeight={true}
+        rows={rows}
+        columns={columns}
+        isRowSelectable={false}
+      />
     </div>
   );
 }

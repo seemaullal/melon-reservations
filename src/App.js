@@ -72,7 +72,7 @@ function App() {
       </AppBar>
       <Switch>
         <Route path="/schedule">
-          <Schedule isLoggedIn={username} />
+          <Schedule username={username} />
         </Route>
         <Route path="/login">
           <LogIn setUsername={setUsername} />
