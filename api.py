@@ -65,8 +65,7 @@ def index(path):
 
 
 if __name__ == "__main__":
-    echo_on = os.environ.get('ENV', '') == 'development'
-    db_uri = os.environment['DATABASE_URI']
-    connect_to_db(app, db_uri, echo_on)
-    connect_to_db(app)
-    app.run(host="0.0.0.0", debug=os.environ.get('ENV', '') == 'development')
+    local_dev = os.environ.get('ENV', '') == 'development'
+    db_uri = os.environ['DATABASE_URI']
+    connect_to_db(app, db_uri, echo=local_dev)
+    app.run(host="0.0.0.0", debug=local_dev)
