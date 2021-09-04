@@ -8,18 +8,6 @@ app = Flask(__name__, static_folder="./build", static_url_path="/")
 app.secret_key = os.environ["APP_SECRET_KEY"]
 
 
-@app.route("/api/reservations")
-def get_reservations():
-    start = datetime.combine(datetime.today(), datetime.min.time())
-    end = datetime.combine(datetime.today(), datetime.max.time())
-    current = start
-    times = []
-    while current < end:
-        times.append(current)
-        current = current + timedelta(minutes=30)
-    return jsonify(times)
-
-
 @app.route("/api/reservations", methods=["POST"])
 def make_reservation():
     start_time = parse(request.get_json()["startTime"])
