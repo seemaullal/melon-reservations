@@ -47,7 +47,12 @@ def search_reservation():
     current = first_appointment_time
     times = []
     while current < end_time:
-        times.append(current.isoformat())
+        # TODO: query the database outside the loop for all possible times
+        existing_reservation = Reservation.query.filter(
+            func.date(Reservation.start_time) == current
+        ).first()
+        if not existing_reservation:
+            times.append(current.isoformat())
         current = current + timedelta(minutes=30)
     return jsonify(times)
 
