@@ -29,11 +29,3 @@ def connect_to_db(flask_app, db_uri, echo):
 
 if __name__ == "__main__":
     from api import app
-
-    # Call connect_to_db(app, echo=False) if your program output gets
-    # too annoying; this will tell SQLAlchemy not to print out every
-    # query it executes.
-    echo_on = os.environ.get('ENV', '') == 'development'
-    db_uri = os.environ['DATABASE_URL'].replace('postgres', 'postgresql')
-
-    connect_to_db(app, db_uri, echo_on)
