@@ -52,7 +52,7 @@ def search_reservation():
     while current < end_time:
         # TODO: query the database outside the loop for all possible times
         existing_reservation = Reservation.query.filter(
-            func.date(Reservation.start_time) == current
+            Reservation.start_time == current
         ).first()
         if not existing_reservation:
             times.append(current.isoformat())
