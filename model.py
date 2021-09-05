@@ -6,11 +6,11 @@ db = SQLAlchemy()
 
 
 class Reservation(db.Model):
-    __tablename__ = "users"
+    __tablename__ = "reservations"
 
     reservation_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     username = db.Column(db.String)
-    start_time = db.Column(db.DateTime)
+    start_time = db.Column(db.DateTime(timezone=True))
 
     # ratings = a list of Rating objects
 
@@ -31,4 +31,5 @@ def connect_to_db(flask_app, db_uri, echo):
 
 if __name__ == "__main__":
     from api import app
+
     app.app_context().push()
