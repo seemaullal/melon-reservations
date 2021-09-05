@@ -2,7 +2,7 @@ import { useHistory } from "react-router";
 import { Button } from "@material-ui/core";
 import { DataGrid } from "@mui/x-data-grid";
 
-export default function AppointmentInfo({ appointments, username, setError }) {
+export default function ReservationInfo({ reservations, username, setError }) {
   const history = useHistory();
 
   function makeReservation(startTime) {
@@ -33,7 +33,7 @@ export default function AppointmentInfo({ appointments, username, setError }) {
   }
 
   const columns = [
-    { field: "appointmentInfo", headerName: "Appointment Info", width: 400 },
+    { field: "reservationInfo", headerName: "Reservation Info", width: 400 },
     {
       field: "schedule",
       headerName: "Make Reservation",
@@ -51,10 +51,10 @@ export default function AppointmentInfo({ appointments, username, setError }) {
     },
   ];
 
-  const rows = appointments.map((appointmentTime) => ({
-    id: Number(appointmentTime),
-    appointmentInfo: appointmentTime.toLocaleString(),
-    schedule: appointmentTime,
+  const rows = reservations.map((reservationTime) => ({
+    id: Number(reservationTime),
+    reservationInfo: reservationTime.toLocaleString(),
+    schedule: reservationTime,
   }));
 
   return (

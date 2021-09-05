@@ -31,12 +31,12 @@ def delete_reservation(reservation_id):
 
 @app.route("/api/reservations/book", methods=["POST"])
 def make_reservation():
-    appointment_start = parse(request.get_json()["startTime"])
+    reservation_start = parse(request.get_json()["startTime"])
     username = request.get_json()["username"]
     try:
         existing_reservations_for_user = (
             Reservation.query.filter(
-                func.date(Reservation.start_time) == appointment_start.date()
+                func.date(Reservation.start_time) == reservation_start.date()
             )
             .filter_by(username=username)
             .all()
@@ -45,10 +45,10 @@ def make_reservation():
             return jsonify(
                 {
                     "success": False,
-                    "error": "User already has an appointment on this day",
+                    "error": "User already has a reservation on this day",
                 }
             )
-        new_reservaton = Reservation(username=username, start_time=appointment_start)
+        new_reservaton = Reservation(username=username, start_time=reservation_start)
         db.session.add(new_reservaton)
         db.session.commit()
         return jsonify({"success": True})
@@ -60,10 +60,10 @@ def make_reservation():
 def search_reservation():
     start_time = parse(request.get_json()["startTime"])
     end_time = parse(request.get_json()["endTime"])
-    first_appointment_time = start_time + (
+    first_reservation_time = start_time + (
         datetime.min.replace(tzinfo=pytz.UTC) - start_time
     ) % timedelta(minutes=30)
-    current = first_appointment_time
+    current = first_reservation_time
     times = []
 
     all_reservations_in_range = (

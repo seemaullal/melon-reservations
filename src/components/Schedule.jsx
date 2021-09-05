@@ -7,13 +7,13 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Alert, AlertTitle, Stack, TextField } from "@mui/material";
 import DateAdapter from "@mui/lab/AdapterDateFns";
 import { DateTimePicker, LocalizationProvider } from "@mui/lab";
-import AppointmentInfo from "./AppointmentInfo";
+import ReservationInfo from "./ReservationInfo";
 
 export default function Schedule({ username }) {
   const [startTime, setStartTime] = useState(new Date());
   const [endTime, setEndTime] = useState(new Date());
   const [error, setError] = useState(null);
-  const [availableAppointments, setAvailableAppointments] = useState([]);
+  const [availableReservations, setAvailableReservations] = useState([]);
   const useStyles = makeStyles((theme) => ({
     label: {
       justifyContent: "left",
@@ -47,7 +47,7 @@ export default function Schedule({ username }) {
         return response.json();
       })
       .then((data) => {
-        setAvailableAppointments(
+        setAvailableReservations(
           data.map((dateString) => new Date(dateString))
         );
       })
@@ -116,9 +116,9 @@ export default function Schedule({ username }) {
             </Alert>
           </Stack>
         )}
-        {availableAppointments.length > 0 && (
-          <AppointmentInfo
-            appointments={availableAppointments}
+        {availableReservations.length > 0 && (
+          <ReservationInfo
+            reservations={availableReservations}
             username={username}
             setError={setError}
           />
