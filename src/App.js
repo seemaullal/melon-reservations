@@ -1,4 +1,3 @@
-import "./App.css";
 import { useState, useEffect } from "react";
 import { Switch, Route, Link as RouterLink } from "react-router-dom";
 import {
