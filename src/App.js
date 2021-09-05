@@ -54,7 +54,7 @@ function App() {
     if (!username) {
       history.push("/login");
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [username]);
 
   return (
@@ -83,9 +83,11 @@ function App() {
           >
             Current Reservations
           </Button>
-          <Button color="inherit" onClick={() => setUsername(null)}>
-            Log out
-          </Button>
+          {username && (
+            <Button color="inherit" onClick={() => setUsername(null)}>
+              Log out
+            </Button>
+          )}
         </Toolbar>
       </AppBar>
       <Switch>
