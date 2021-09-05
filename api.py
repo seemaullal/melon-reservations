@@ -49,12 +49,15 @@ def search_reservation():
     ) % timedelta(minutes=30)
     current = first_appointment_time
     times = []
+
+    all_reservations_in_range = (
+        db.session.query(Reservation.start_time)
+        .filter(Reservation.start_time.between(start_time, end_time))
+        .all()
+    )
+    existing_reservation_times = {res[0] for res in all_reservations_in_range}
     while current < end_time:
-        # TODO: query the database outside the loop for all possible times
-        existing_reservation = Reservation.query.filter(
-            Reservation.start_time == current
-        ).first()
-        if not existing_reservation:
+        if current not in existing_reservation_times:
             times.append(current.isoformat())
         current = current + timedelta(minutes=30)
     return jsonify(times)
