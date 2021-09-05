@@ -8,9 +8,10 @@ import os
 
 app = Flask(__name__, static_folder="./build", static_url_path="/")
 app.secret_key = os.environ["APP_SECRET_KEY"]
-local_dev = os.environ.get('ENV', '') == 'development'
-db_uri = os.environ['DATABASE_URL'].replace('postgres', 'postgresql')
+local_dev = os.environ.get("ENV", "") == "development"
+db_uri = os.environ["DATABASE_URL"].replace("postgres", "postgresql")
 connect_to_db(app, db_uri, echo=local_dev)
+
 
 @app.route("/api/reservations/book", methods=["POST"])
 def make_reservation():
