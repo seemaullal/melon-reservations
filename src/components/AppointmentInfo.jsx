@@ -1,15 +1,10 @@
-// import { useState } from "react";
-// import { useHistory } from "react-router";
-// import "date-fns";
-// import { startOfDay } from "date-fns";
+import { useHistory } from "react-router";
 import { Button } from "@material-ui/core";
-// import { makeStyles } from "@material-ui/core/styles";
-// import DateAdapter from "@mui/lab/AdapterDateFns";
-// import TextField from "@mui/material/TextField";
-// import { DatePicker, LocalizationProvider, TimePicker } from "@mui/lab";
 import { DataGrid } from "@mui/x-data-grid";
 
-export default function AppointmentInfo({ appointments, username }) {
+export default function AppointmentInfo({ appointments, username, setError }) {
+  const history = useHistory();
+
   function makeReservation(startTime) {
     const data = JSON.stringify({ startTime, username });
     fetch("/api/reservations/book", {
@@ -26,10 +21,14 @@ export default function AppointmentInfo({ appointments, username }) {
         return response.json();
       })
       .then((responseJson) => {
-        console.log(responseJson);
+        if (responseJson.success) {
+          history.push("/current_reservations");
+        } else {
+          setError(responseJson.error)
+        }
       })
       .catch((error) => {
-        console.error("Error:", error);
+        setError(error)
       });
   }
 

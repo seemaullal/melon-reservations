@@ -4,14 +4,15 @@ import "date-fns";
 import { startOfDay } from "date-fns";
 import { Button, Container, Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
+import { Alert, AlertTitle, Stack, TextField } from "@mui/material";
 import DateAdapter from "@mui/lab/AdapterDateFns";
-import TextField from "@mui/material/TextField";
 import { DateTimePicker, LocalizationProvider } from "@mui/lab";
 import AppointmentInfo from "./AppointmentInfo";
 
 export default function Schedule({ username }) {
   const [startTime, setStartTime] = useState(new Date());
   const [endTime, setEndTime] = useState(new Date());
+  const [error, setError] = useState(null);
   const [availableAppointments, setAvailableAppointments] = useState([]);
   const useStyles = makeStyles((theme) => ({
     label: {
@@ -29,6 +30,7 @@ export default function Schedule({ username }) {
   }));
 
   function onSubmit() {
+    setError(null);
     const data = JSON.stringify({ startTime, endTime });
     fetch("/api/reservations", {
       method: "POST",
@@ -102,10 +104,22 @@ export default function Schedule({ username }) {
             </Button>
           </Grid>
         </Grid>
+        {error && (
+          <Stack
+            sx={{ width: "100%", marginTop: "10px", marginBottom: "10px" }}
+            spacing={4}
+          >
+            <Alert severity="error">
+              <AlertTitle>Error</AlertTitle>
+              {error}
+            </Alert>
+          </Stack>
+        )}
         {availableAppointments.length > 0 && (
           <AppointmentInfo
             appointments={availableAppointments}
             username={username}
+            setError={setError}
           />
         )}
       </LocalizationProvider>

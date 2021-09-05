@@ -11,16 +11,13 @@ function Reservations({ reservations, setReservations }) {
         (reservation) => reservation.reservation_id !== reservationId
       );
     });
+    // assume this will be successful
     fetch(`/api/reservations/${reservationId}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
       },
-    })
-      .then((response) => response.json())
-      .then((responseJson) => {
-        console.log(responseJson);
-      });
+    });
   }
 
   const columns = [
