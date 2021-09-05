@@ -13,6 +13,14 @@ db_uri = os.environ["DATABASE_URL"].replace("postgres", "postgresql")
 connect_to_db(app, db_uri, echo=local_dev)
 
 
+@app.route("/api/user/<username>/reservations/", methods=["GET"])
+def get_user_apointments(username):
+    existing_reservations_for_user = Reservation.query.filter_by(
+        username=username
+    ).all()
+    return jsonify([res.to_dict() for res in existing_reservations_for_user])
+
+
 @app.route("/api/reservations/book", methods=["POST"])
 def make_reservation():
     appointment_start = parse(request.get_json()["startTime"])
