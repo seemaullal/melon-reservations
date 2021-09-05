@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, send_from_directory
 from sqlalchemy import func
 from datetime import datetime, timedelta
 from dateutil.parser import parse
@@ -83,7 +83,11 @@ def search_reservation():
 @app.route("/", defaults={"path": ""})
 @app.route("/<path:path>")
 def index(path):
-    return app.send_static_file("index.html")
+    path_dir = os.path.abspath("./build")
+    if path != "" and os.path.exists(os.path.join(path_dir, path)):
+         return send_from_directory(os.path.join(path_dir), path)
+    else:
+         return send_from_directory(os.path.join(path_dir),'index.html')
 
 
 if __name__ == "__main__":
