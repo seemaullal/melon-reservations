@@ -19,6 +19,7 @@ export default function Schedule({ username }) {
       justifyContent: "left",
     },
     submitBtn: {
+      marginBottom: "10px",
       backgroundColor: "#00745d",
       color: "white",
       "&:hover": {
@@ -106,7 +107,7 @@ export default function Schedule({ username }) {
         </Grid>
         {error && (
           <Stack
-            sx={{ width: "100%", marginTop: "10px", marginBottom: "10px" }}
+            sx={{ width: "100%", marginBottom: "10px" }}
             spacing={4}
           >
             <Alert severity="error">
