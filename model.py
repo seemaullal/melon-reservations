@@ -1,6 +1,5 @@
 from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
-import os
 
 db = SQLAlchemy()
 
@@ -11,8 +10,6 @@ class Reservation(db.Model):
     reservation_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     username = db.Column(db.String)
     start_time = db.Column(db.DateTime(timezone=True))
-
-    # ratings = a list of Rating objects
 
     def __repr__(self):
         return f"<User username={self.username} start_time={self.start_time}>"

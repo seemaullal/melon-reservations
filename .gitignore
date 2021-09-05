@@ -1,10 +1,7 @@
 # dependencies
+# libraries
 /node_modules
-/.pnp
-.pnp.js
-
-# testing
-/coverage
+/env
 
 # other
 .DS_Store
