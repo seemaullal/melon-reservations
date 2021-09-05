@@ -16,8 +16,9 @@ import {
 import ScheduleIcon from "@material-ui/icons/Schedule";
 import green from "@material-ui/core/colors/green";
 import { useHistory } from "react-router";
-import Schedule from "./components/Schedule";
+import CurrentReservations from "./components/CurrentReservations";
 import LogIn from "./components/LogIn";
+import Schedule from "./components/Schedule";
 
 const theme = createTheme({
   palette: {
@@ -68,11 +69,17 @@ function App() {
           <Button to="/schedule" component={RouterLink} color="inherit">
             Schedule Tasting
           </Button>
+          <Button to="/current_reservations" component={RouterLink} color="inherit">
+            Current Reservations
+          </Button>
         </Toolbar>
       </AppBar>
       <Switch>
         <Route path="/schedule">
           <Schedule username={username} />
+        </Route>
+        <Route path="/current_reservations">
+          <CurrentReservations username={username} />
         </Route>
         <Route path="/login">
           <LogIn setUsername={setUsername} />

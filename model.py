@@ -18,7 +18,11 @@ class Reservation(db.Model):
         return f"<User username={self.username} start_time={self.start_time}>"
 
     def to_dict(self):
-        return {"username": self.username, "start_time": self.start_time.isoformat()}
+        return {
+            "reservation_id": self.reservation_id,
+            "username": self.username,
+            "start_time": self.start_time.isoformat(),
+        }
 
 
 def connect_to_db(flask_app, db_uri, echo):
