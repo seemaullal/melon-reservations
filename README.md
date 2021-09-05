@@ -1,4 +1,4 @@
-# Melon Reservation Scheduler
+# [Melon Reservation Scheduler](https://melon-reservations.herokuapp.com/)
 
 This project allows you to make and manage melon tasting reservations. 🍉
 
@@ -87,4 +87,10 @@ Your app is ready to be deployed!
 
 ### Deployment
 
-This will be updated later
+The application is deployed using Heroku. For production, the Flask server
+serves the pre-compiled and optimized frontend build.
+
+If new frontend changes need to be deployed, run `yarn build` before deploying.
+To deploy, run `git push heroku main` (you will need to set up Heroku access first).
+
+The deployed application can be found at https://melon-reservations.herokuapp.com/.
