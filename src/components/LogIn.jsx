@@ -9,7 +9,7 @@ export default function LogIn(props) {
   function loginUser(event) {
     event.preventDefault();
     props.setUsername(currentUsername);
-    history.push("/schedule");
+    history.push("/");
   }
 
   return (

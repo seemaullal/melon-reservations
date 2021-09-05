@@ -1,5 +1,5 @@
 import "./App.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Switch, Route, Link as RouterLink } from "react-router-dom";
 import {
   AppBar,
@@ -19,6 +19,7 @@ import { useHistory } from "react-router";
 import CurrentReservations from "./components/CurrentReservations";
 import LogIn from "./components/LogIn";
 import Schedule from "./components/Schedule";
+import Homepage from "./components/Homepage";
 
 const theme = createTheme({
   palette: {
@@ -43,14 +44,18 @@ function App() {
     },
     title: {
       flexGrow: 1,
+      textDecoration: "none",
     },
   }));
 
   const classes = useStyles();
 
-  if (!username) {
-    history.push("/login");
-  }
+  useEffect(() => {
+    if (!username) {
+      history.push("/login");
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [username]);
 
   return (
     <ThemeProvider theme={theme}>
@@ -63,14 +68,23 @@ function App() {
             color="inherit"
             noWrap
             className={classes.title}
+            to="/"
+            component={RouterLink}
           >
             Melon Tasting Scheduler
           </Typography>
           <Button to="/schedule" component={RouterLink} color="inherit">
             Schedule Tasting
           </Button>
-          <Button to="/current_reservations" component={RouterLink} color="inherit">
+          <Button
+            to="/current_reservations"
+            component={RouterLink}
+            color="inherit"
+          >
             Current Reservations
+          </Button>
+          <Button color="inherit" onClick={() => setUsername(null)}>
+            Log out
           </Button>
         </Toolbar>
       </AppBar>
@@ -84,9 +98,9 @@ function App() {
         <Route path="/login">
           <LogIn setUsername={setUsername} />
         </Route>
-        <>
-          <Typography variant="h3">Welcome, {username}!</Typography>
-        </>
+        <Route path="/">
+          <Homepage username={username} />
+        </Route>
       </Switch>
     </ThemeProvider>
   );
