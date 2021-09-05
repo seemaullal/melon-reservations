@@ -31,3 +31,4 @@ def connect_to_db(flask_app, db_uri, echo):
 
 if __name__ == "__main__":
     from api import app
+    app.app_context().push()
