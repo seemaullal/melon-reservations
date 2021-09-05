@@ -66,6 +66,6 @@ def index(path):
 
 if __name__ == "__main__":
     local_dev = os.environ.get('ENV', '') == 'development'
-    db_uri = os.environ['DATABASE_URL']
+    db_uri = os.environ['DATABASE_URL'].replace('postgres', 'postgresql')
     connect_to_db(app, db_uri, echo=local_dev)
     app.run(host="0.0.0.0", debug=local_dev)

@@ -34,6 +34,6 @@ if __name__ == "__main__":
     # too annoying; this will tell SQLAlchemy not to print out every
     # query it executes.
     echo_on = os.environ.get('ENV', '') == 'development'
-    db_uri = os.environ['DATABASE_URL']
+    db_uri = os.environ['DATABASE_URL'].replace('postgres', 'postgresql')
 
     connect_to_db(app, db_uri, echo_on)
