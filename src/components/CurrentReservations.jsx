@@ -3,19 +3,38 @@ import { Button, Container, Typography } from "@material-ui/core";
 import { DataGrid } from "@mui/x-data-grid";
 import { useHistory } from "react-router";
 
-function Reservations({ reservations }) {
+function Reservations({ reservations, setReservations }) {
+  function deleteReservation(reservationId) {
+    // remove the reservation so it is no longer displayed
+    setReservations((reservations) => {
+      return reservations.filter(
+        (reservation) => reservation.reservation_id !== reservationId
+      );
+    });
+    fetch(`/api/reservations/${reservationId}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        console.log(responseJson);
+      });
+  }
+
   const columns = [
     { field: "reservationTime", headerName: "Reservation Info", width: 400 },
     {
       field: "cancelReservation",
       headerName: "Cancel Reservation",
       width: 400,
-      renderCell: ({ id }) => (
+      renderCell: ({ id: reservationId }) => (
         <Button
           variant="contained"
           color="primary"
           size="small"
-          onClick={(evt) => console.log(id)}
+          onClick={(evt) => deleteReservation(reservationId)}
         >
           Cancel Reservation
         </Button>
@@ -65,7 +84,10 @@ export default function CurrentReservations({ username }) {
           <Typography component="h1" variant="h5">
             Your reservations:
           </Typography>
-          <Reservations reservations={reservations} />
+          <Reservations
+            reservations={reservations}
+            setReservations={setReservations}
+          />
         </>
       )}
     </Container>

@@ -14,11 +14,19 @@ connect_to_db(app, db_uri, echo=local_dev)
 
 
 @app.route("/api/user/<username>/reservations/", methods=["GET"])
-def get_user_apointments(username):
+def get_user_reservations(username):
     existing_reservations_for_user = Reservation.query.filter_by(
         username=username
     ).all()
     return jsonify([res.to_dict() for res in existing_reservations_for_user])
+
+
+@app.route("/api/reservations/<reservation_id>", methods=["DELETE"])
+def delete_reservation(reservation_id):
+    reservation_to_delete = Reservation.query.get(reservation_id)
+    db.session.delete(reservation_to_delete)
+    db.session.commit()
+    return jsonify(f"Reservation {reservation_id} deleted")
 
 
 @app.route("/api/reservations/book", methods=["POST"])
