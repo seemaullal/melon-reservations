@@ -24,11 +24,11 @@ export default function ReservationInfo({ reservations, username, setError }) {
         if (responseJson.success) {
           history.push("/current_reservations");
         } else {
-          setError(responseJson.error)
+          setError(responseJson.error);
         }
       })
       .catch((error) => {
-        setError(error)
+        setError(error.message);
       });
   }
 

@@ -19,7 +19,7 @@ const theme = createTheme({
 
 function App() {
   const history = useHistory();
-  const [username, setUsername] = useState();
+  const [username, setUsername] = useState(null);
 
   useEffect(() => {
     if (!username) {
